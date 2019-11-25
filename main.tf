@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "${var.region}"
+  region = var.region
   version = "~> 2.7"
 }
 
@@ -11,8 +11,8 @@ resource "aws_cloudtrail" "cloudtrail" {
   enable_logging                = var.enable_logging
   include_global_service_events = var.include_global_service_events
   is_multi_region_trail         = var.is_multi_region_trail
-  enable_log_file_validation    = "var.enable_log_file_validation
-  is_organization_trail         = "var.is_organization_trail
+  enable_log_file_validation    = var.enable_log_file_validation
+  is_organization_trail         = var.is_organization_trail
 
   tags {
     Name        = var.cloudtrail_name
@@ -31,7 +31,7 @@ resource "aws_s3_bucket" "trail" {
 
     transition {
       days          = var.s3_bucket_days_to_transition
-      storage_class = "var.s3_bucket_transition_storage_class
+      storage_class = var.s3_bucket_transition_storage_class
     }
   }
 
@@ -66,7 +66,7 @@ data "aws_iam_policy_document" "cloudtrail_log_access" {
     sid     = "AWSCloudTrailWrite"
     actions = ["s3:PutObject"]
 
-    resources = ["var.s3_key_prefix != "" ? format("%s/%s/*", aws_s3_bucket.trail.arn, var.s3_key_prefix) : format("%s/*", aws_s3_bucket.trail.arn)"]
+    resources = [ var.s3_key_prefix != "" ? format("%s/%s/*", aws_s3_bucket.trail.arn, var.s3_key_prefix) : format("%s/*", aws_s3_bucket.trail.arn)]
 
     principals {
       type        = "Service"
