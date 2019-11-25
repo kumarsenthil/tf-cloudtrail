@@ -62,7 +62,7 @@ data "aws_iam_policy_document" "cloudtrail_log_access" {
     sid     = "AWSCloudTrailWrite"
     actions = ["s3:PutObject"]
 
-    resources = [ var.s3_key_prefix != "" ? format("%s/%s/*", aws_s3_bucket.trail.arn, var.s3_key_prefix) : format("%s/*", aws_s3_bucket.trail.arn)]
+    resources = ["${var.s3_key_prefix != "" ? format("%s/%s/*", aws_s3_bucket.trail.arn, var.s3_key_prefix) : format("%s/*", aws_s3_bucket.trail.arn)}"]
 
     principals {
       type        = "Service"
