@@ -1,3 +1,8 @@
+provider "aws" {
+  region = "${var.region}"
+  version = "~> 2.7"
+}
+
 resource "aws_cloudtrail" "cloudtrail" {
   name           = var.cloudtrail_name
   s3_bucket_name = var.s3_bucket_name
