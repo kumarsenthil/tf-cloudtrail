@@ -14,7 +14,7 @@ resource "aws_cloudtrail" "cloudtrail" {
   enable_log_file_validation    = var.enable_log_file_validation
   is_organization_trail         = var.is_organization_trail
 
-  depends_on = ["aws_s3_bucket.trail"]
+  depends_on = [ aws_s3_bucket.trail ]
 }
 
 resource "aws_s3_bucket" "trail" {
